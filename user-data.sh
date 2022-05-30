@@ -4,7 +4,7 @@ sudo apt install openjdk-11-jdk -y
 wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.79/bin/apache-tomcat-8.5.79.tar.gz
 sudo tar xzvf apache-tomcat-8.5.79.tar.gz
 sudo mkdir /opt/tomcat/
-sudo mv apache-tomcat-8.5.79/* /opt/tomcat/ 
+sudo mv apache-tomcat-8.5.79/* /opt/tomcat/
 sudo chown -R www-data:www-data /opt/tomcat/
 sudo chmod -R 755 /opt/tomcat/
 sudo sed -i '56 i <!-- user manager can access only manager section -->\n<role rolename="manager-gui" />\n<user username="manager" password="manager" roles="manager-gui" />\n\n<!-- user admin can access manager and admin section both -->\n<role rolename="admin-gui" />\n<user username="admin" password="admin" roles="manager-gui,admin-gui" />' /opt/tomcat/conf/tomcat-users.xml \
@@ -19,3 +19,9 @@ sudo systemctl daemon-reload
 sudo systemctl start tomcat
 sudo systemctl enable tomcat
 git clone https://github.com/Chmokachka/Geocit134.git
+sudo apt install maven -y
+sed -i 's/postusername/$(db_username)/g' Geocit134/src/main/properties/application.properties
+sed -i 's/postpassword/$(db_password)/g' Geocit134/src/main/properties/application.properties
+sed -i 's/localhostbase/$(db_url)/g' Geocit134/src/main/properties/application.properties
+sed -i 's/passwordemail/$(email_password)/g' Geocit134/src/main/properties/application.properties
+(cd Geocit134 && mvn clean install && sudo mv target/citizen.war /opt/tomcat/webapps/ && sudo /opt/tomcat/bin/startup.sh)

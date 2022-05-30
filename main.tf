@@ -165,7 +165,7 @@ resource "aws_elb" "web" {
 resource "aws_db_instance" "default" {
   allocated_storage      = 10
   engine                 = "postgres"
-  engine_version         = "5.7"
+  engine_version         = "13.4"
   instance_class         = "db.t3.micro"
   name                   = "ss_citizen"
   username               = local.db_creds.username

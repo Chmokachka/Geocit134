@@ -1,5 +1,11 @@
 target/
 variables.tf
+.terraform/
+.terraform.lock.hcl
+main2.tf
+application2.properties
+terraform.tfstate
+terraform.tfstate.backup
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup

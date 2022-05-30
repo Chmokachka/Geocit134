@@ -18,3 +18,4 @@ sudo mv tomcat.service /etc/systemd/system/
 sudo systemctl daemon-reload
 sudo systemctl start tomcat
 sudo systemctl enable tomcat
+git clone https://github.com/Chmokachka/Geocit134.git

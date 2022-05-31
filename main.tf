@@ -19,23 +19,30 @@ data "aws_secretsmanager_secret_version" "creds" {
   secret_id = "db-secrets"
 }
 
+data "aws_secretsmanager_secret_version" "email" {
+  # Fill in the name you gave to your secret
+  secret_id = "email-password"
+}
+
 locals {
   db_creds = jsondecode(
     data.aws_secretsmanager_secret_version.creds.secret_string
   )
+  email_pass = jsondecode(
+    data.aws_secretsmanager_secret_version.email.secret_string
+  )
 }
-/*data "template_file" "user_data" {
-  template = file("/Users/mac/DevOps/petclinic/user_data.sh")
-  vars = {
-    db_url = aws_db_instance.default.address
-  }
-}*/
 
-/*locals {
+data "template_file" "user_data" {
+  template = file("user-data.sh")
   vars = {
-    db_url = aws_db_instance.default.address
+    db_url = "${aws_db_instance.default.address}"
+    db_username = "${local.db_creds.username}"
+    db_password = "${local.db_creds.password}"
+    email_password = "${local.email_pass.password}"
   }
-}*/
+}
+
 #--------------------------------------------------------------
 resource "aws_security_group" "web" {
   name       = "Dynamic Security Group"
@@ -105,7 +112,7 @@ resource "aws_launch_configuration" "web" {
   image_id        = data.aws_ami.latest_amazon_linux.id
   instance_type   = "t2.micro"
   security_groups = [aws_security_group.web.id]
-  user_data       = file("user-data.sh")
+  user_data       = data.template_file.user_data.rendered
   depends_on      = [aws_db_instance.default]
 }
 

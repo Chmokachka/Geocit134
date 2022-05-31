@@ -20,8 +20,8 @@ sudo systemctl start tomcat
 sudo systemctl enable tomcat
 git clone https://github.com/Chmokachka/Geocit134.git
 sudo apt install maven -y
-sed -i 's/postusername/$(db_username)/g' Geocit134/src/main/properties/application.properties
-sed -i 's/postpassword/$(db_password)/g' Geocit134/src/main/properties/application.properties
-sed -i 's/localhostbase/$(db_url)/g' Geocit134/src/main/properties/application.properties
-sed -i 's/passwordemail/$(email_password)/g' Geocit134/src/main/properties/application.properties
+sed -i 's/postusername/$(db_username)/g' /Geocit134/src/main/properties/application.properties
+sed -i 's/postpassword/$(db_password)/g' /Geocit134/src/main/properties/application.properties
+sed -i 's/localhostbase/$(db_url)/g' /Geocit134/src/main/properties/application.properties
+sed -i 's/passwordemail/$(email_password)/g' /Geocit134/src/main/properties/application.properties
 (cd Geocit134 && mvn clean install && sudo mv target/citizen.war /opt/tomcat/webapps/ && sudo /opt/tomcat/bin/startup.sh)

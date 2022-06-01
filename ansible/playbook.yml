@@ -1,6 +1,6 @@
 ---
 - name: Project
-  hosts: all
+  hosts: localhost
   become: yes
 
   tasks:

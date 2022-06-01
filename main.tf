@@ -34,7 +34,7 @@ locals {
 }
 
 data "template_file" "user_data" {
-  template = file("user-data.sh")
+  template = file("user-data2.sh")
   vars = {
     db_url = "${aws_db_instance.default.address}"
     db_username = "${local.db_creds.username}"
@@ -162,7 +162,7 @@ resource "aws_elb" "web" {
     unhealthy_threshold = 2
     timeout             = 3
     target              = "HTTP:8080/"
-    interval            = 30
+    interval            = 120
   }
   tags = {
     Name = "WebServer-Highly-Available-ELB"

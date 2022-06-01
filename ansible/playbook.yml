@@ -1,0 +1,41 @@
+---
+- name: Project
+  hosts: all
+  become: yes
+
+  tasks:
+  - name: update
+    apt: update_cache=yes force_apt_get=yes
+
+  - name: java11
+    apt:
+      name: openjdk-11-jdk
+      state: present
+
+  - name: maven
+    apt:
+      name: maven
+      state: present
+
+  - name: Create a directory Tomcat
+    file:
+      path: "/opt/tomcat"
+      state: directory
+      mode: '0755'
+
+  - name : Download and install tomcat
+    unarchive:
+      src: "https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.79/bin/apache-tomcat-8.5.79.tar.gz"
+      dest: "/opt/tomcat/"
+      mode: 0755
+      remote_src: yes
+
+  - name: Recursively change ownership of a directory
+    file:
+      path: "/opt/tomcat"
+      state: directory
+      recurse: yes
+      owner: www-data
+      group: www-data
+
+  - 

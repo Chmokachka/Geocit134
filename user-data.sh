@@ -24,4 +24,4 @@ sudo sed -i 's/postusername/${db_username}/g' /Geocit134/src/main/resources/appl
 sudo sed -i 's/postpassword/${db_password}/g' /Geocit134/src/main/resources/application.properties
 sudo sed -i 's/localhost:5432/${db_url}:5432/g' /Geocit134/src/main/resources/application.properties
 sudo sed -i 's/passwordemail/${email_password}/g' /Geocit134/src/main/resources/application.properties
-(cd Geocit134 && sudo mvn clean install && sudo mv target/citizen.war /opt/tomcat/webapps/ && sudo /opt/tomcat/bin/startup.sh)
+(cd Geocit134 && mvn clean install && sudo mv target/citizen.war /opt/tomcat/webapps/ && sudo /opt/tomcat/bin/startup.sh)

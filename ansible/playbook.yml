@@ -26,9 +26,12 @@
   - name : Download and install tomcat
     unarchive:
       src: "https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.79/bin/apache-tomcat-8.5.79.tar.gz"
-      dest: "/opt/tomcat/"
+      dest: "/"
       mode: 0755
       remote_src: yes
+
+  - name: move tomcat
+    shell: mv /apache-tomcat-8.5.79/* /opt/tomcat/
 
   - name: Recursively change ownership of a directory
     file:
@@ -40,21 +43,21 @@
 
   - name: add users
     lineinfile:
-      dest: /opt/tomcat/apache-tomcat-8.5.79/conf/tomcat-users.xml
+      dest: /opt/tomcat/conf/tomcat-users.xml
       line: '<!-- user manager can access only manager section --><role rolename="manager-gui" /><user username="manager" password="manager" roles="manager-gui" /><!-- user admin can access manager and admin section both --><role rolename="admin-gui" /><user username="admin" password="admin" roles="manager-gui,admin-gui" /></tomcat-users>'
       regexp: '^</tomcat-users>$'
       state: present
 
   - name: comment in manager
     lineinfile:
-      dest: /opt/tomcat/apache-tomcat-8.5.79/webapps/manager/META-INF/context.xml
+      dest: /opt/tomcat/webapps/manager/META-INF/context.xml
       line: '<!-- <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->'
       regexp: '^<Valve className="org.apache.catalina.valves.RemoteAddrValve"\nallow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />$'
       state: present
 
   - name: comment in host-manager
     lineinfile:
-      dest: /opt/tomcat/apache-tomcat-8.5.79/webapps/host-manager/META-INF/context.xml
+      dest: /opt/tomcat/webapps/host-manager/META-INF/context.xml
       line: '<!-- <Valve className="org.apache.catalina.valves.RemoteAddrValve" allow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" /> -->'
       regexp: '^<Valve className="org.apache.catalina.valves.RemoteAddrValve"\nallow="127\.\d+\.\d+\.\d+|::1|0:0:0:0:0:0:0:1" />$'
       state: present
@@ -101,7 +104,7 @@
     shell: "cd /Geocit134 && mvn clean install"
 
   - name: mv war
-    command: mv /Geocit134/target/citizen.war /opt/tomcat/apache-tomcat-8.5.79/webapps/
+    command: mv /Geocit134/target/citizen.war /opt/tomcat/webapps/
 
   - name: start Tomcat
-    shell: "/opt/tomcat/apache-tomcat-8.5.79/bin/startup.sh"
+    shell: "/opt/tomcat/bin/startup.sh"

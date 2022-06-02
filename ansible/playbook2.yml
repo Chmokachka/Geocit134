@@ -1,0 +1,55 @@
+---
+- name: Project
+  hosts: localhost
+  become: yes
+
+  tasks:
+  - name: update
+    apt: update_cache=yes force_apt_get=yes
+
+  - name: java11
+    apt:
+      name: openjdk-11-jdk
+      state: present
+
+  - name: maven
+    apt:
+      name: maven
+      state: present
+
+  - name: change postgres username
+    lineinfile:
+      dest: /Geocit134/src/main/resources/application.properties
+      line: "${DB_USER}"
+      regexp: "^postusername$"
+      state: present
+
+  - name: change postgres password
+    lineinfile:
+      dest: /Geocit134/src/main/resources/application.properties
+      line: "${DB_PASS}"
+      regexp: "^postpassword$"
+      state: present
+
+  - name: change db url
+    lineinfile:
+      dest: /Geocit134/src/main/resources/application.properties
+      line: "${DB_URL}:5432"
+      regexp: "^localhost:5432$"
+      state: present
+
+  - name: change email password
+    lineinfile:
+      dest: /Geocit134/src/main/resources/application.properties
+      line: "${EMAIL_PASS}"
+      regexp: "^passwordemail$"
+      state: present
+
+  - name: build
+    shell: "cd /Geocit134 && mvn clean install"
+
+  - name: mv war
+    command: mv /Geocit134/target/citizen.war /opt/tomcat/webapps/
+
+  - name: start Tomcat
+    shell: "/opt/tomcat/bin/startup.sh"

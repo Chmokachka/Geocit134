@@ -86,7 +86,7 @@
   - name: change db url
     lineinfile:
       dest: /Geocit134/src/main/resources/application.properties
-      line: "${DB_URL}"
+      line: "${DB_URL}:5432"
       regexp: "^localhost:5432$"
       state: present
 
@@ -96,7 +96,7 @@
       line: "${EMAIL_PASS}"
       regexp: "^passwordemail$"
       state: present
-      
+
   - name: build
     shell: "cd /Geocit134 && mvn clean install"
 

@@ -23,30 +23,8 @@
       state: directory
       mode: '0755'
 
-  - name : Download and install tomcat
-    unarchive:
-      src: "https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.79/bin/apache-tomcat-8.5.79.tar.gz"
-      dest: "/"
-      mode: 0755
-      remote_src: yes
-
-  - name: move tomcat
-    shell: mv /apache-tomcat-8.5.79/* /opt/tomcat/
-
-  - name: Recursively change ownership of a directory
-    file:
-      path: "/opt/tomcat"
-      state: directory
-      recurse: yes
-      owner: www-data
-      group: www-data
-
-  - name: add users
-    lineinfile:
-      dest: /opt/tomcat/conf/tomcat-users.xml
-      line: '<!-- user manager can access only manager section --><role rolename="manager-gui" /><user username="manager" password="manager" roles="manager-gui" /><!-- user admin can access manager and admin section both --><role rolename="admin-gui" /><user username="admin" password="admin" roles="manager-gui,admin-gui" /></tomcat-users>'
-      regexp: '^</tomcat-users>$'
-      state: present
+  - name: tomcat
+    shell: "wget https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.79/bin/apache-tomcat-8.5.79.tar.gz && tar xzvf apache-tomcat-8.5.79.tar.gz && mv apache-tomcat-8.5.79/* /opt/tomcat/ && chown -R www-data:www-data /opt/tomcat/ && chmod -R 755 /opt/tomcat/"
 
   - name: comment in manager
     lineinfile:

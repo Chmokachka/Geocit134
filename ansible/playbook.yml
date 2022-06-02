@@ -39,11 +39,11 @@
       group: www-data
 
   - name: sed commands for Tomcat
-    shell: sed -i '56 i <\!-- user manager can access only manager section -->\n<role rolename="manager-gui" />\n<user username="manager" password="manager" roles="manager-gui" />\n\n<\!-- user admin can access manager and admin section both -->\n<role rolename="admin-gui" />\n<user username="admin" password="admin" roles="manager-gui,admin-gui" />' /opt/tomcat/apache-tomcat-8.5.79/conf/tomcat-users.xml
-    shell: sed -i '21 i <\!--' /opt/tomcat/apache-tomcat-8.5.79/webapps/manager/META-INF/context.xml
-    shell: sed -i '24 i -->' /opt/tomcat/apache-tomcat-8.5.79/webapps/manager/META-INF/context.xml
-    shell: sed -i '21 i <\!--' /opt/tomcat/apache-tomcat-8.5.79/webapps/host-manager/META-INF/context.xml
-    shell: sed -i '24 i -->' /opt/tomcat/apache-tomcat-8.5.79/webapps/host-manager/META-INF/context.xml
+    shell: sed -i "56 i <\!-- user manager can access only manager section -->\n<role rolename="manager-gui" />\n<user username="manager" password="manager" roles="manager-gui" />\n\n<\!-- user admin can access manager and admin section both -->\n<role rolename="admin-gui" />\n<user username="admin" password="admin" roles="manager-gui,admin-gui" />" /opt/tomcat/apache-tomcat-8.5.79/conf/tomcat-users.xml
+    shell: sed -i "21 i <\!--" /opt/tomcat/apache-tomcat-8.5.79/webapps/manager/META-INF/context.xml
+    shell: sed -i "24 i -->" /opt/tomcat/apache-tomcat-8.5.79/webapps/manager/META-INF/context.xml
+    shell: sed -i "21 i <\!--" /opt/tomcat/apache-tomcat-8.5.79/webapps/host-manager/META-INF/context.xml
+    shell: sed -i "24 i -->" /opt/tomcat/apache-tomcat-8.5.79/webapps/host-manager/META-INF/context.xml
 
   - name: mv file
     command: mv /Geocit134/tomcat.service /etc/systemd/system

@@ -34,12 +34,12 @@ pipeline {
                      export PUBLIC_IP1=\$(cut -d '"' -f 2 publicip1.txt); \
                      export PUBLIC_IP2=\$(cut -d '"' -f 2 publicip2.txt); \
                      export DB_URL=\$(cut -d '"' -f 2 output.txt); \
-                     sed -i 's/postusername/\$POSTGRES_USER_PASS/g' /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
-                     sed -i 's/postpassword/\$POSTGRES_USER_PASS/g' /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
-                     sed -i 's/localhost:5432/\$DB_URL:5432/g' /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
-                     sed -i 's/passwordemail/\$EMAIL_PASSWORD/g' /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
-                     sed -i 's/server1/\$PUBLIC_IP1/g' /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
-                     sed -i 's/server2/\$PUBLIC_IP2/g' /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
+                     sed -i "s/postusername/\$POSTGRES_USER_PASS/g" /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i "s/postpassword/\$POSTGRES_USER_PASS/g" /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i "s/localhost:5432/\$DB_URL:5432/g" /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i "s/passwordemail/\$EMAIL_PASSWORD/g" /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i "s/server1/\$PUBLIC_IP1/g" /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
+                     sed -i "s/server2/\$PUBLIC_IP2/g" /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
                      cat /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
                      cat /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
                      terraform destroy --auto-approve

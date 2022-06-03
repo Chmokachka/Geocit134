@@ -2,6 +2,13 @@ provider "aws" {
   region = "eu-north-1"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "tsfilegeo"
+    key    = "dev/terraform-states/terraform.tfstate"
+    region = "eu-north-1"
+  }
+}
 
 data "aws_availability_zones" "available" {}
 
@@ -110,9 +117,9 @@ resource "aws_launch_configuration" "web" {
   //  name            = "WebServer-Highly-Available-LC"
   name_prefix     = "WebServer-Highly-Available-LC-"
   image_id        = data.aws_ami.latest_amazon_linux.id
+  key_name = "linux_stockholm"
   instance_type   = "t3.micro"
   security_groups = [aws_security_group.web.id]
-  user_data       = data.template_file.user_data.rendered
   depends_on      = [aws_db_instance.default]
 }
 

@@ -1,0 +1,46 @@
+pipeline {
+    agent any
+    tools{
+        terraform 'terraform'
+    }
+    stages {
+        stage('terraform apply ') {
+            steps {
+                script{
+                  withCredentials([string(credentialsId: 'access_key', variable: 'access_key'),string(credentialsId: 'secret_key', variable: 'secret_key')]) {
+                     sh """
+                     pwd; \
+                     export AWS_ACCESS_KEY_ID="\$access_key"; \
+                     export AWS_SECRET_ACCESS_KEY="\$secret_key"; \
+                     export AWS_DEFAULT_REGION="eu-north-1"; \
+                     terraform apply --auto-approve
+                     """
+                    }
+                }
+            }
+        }
+        stage('Take public IP') {
+            steps {
+                script{
+                  withCredentials([string(credentialsId: 'access_key', variable: 'access_key'), string(credentialsId: 'secret_key', variable: 'secret_key'), string(credentialsId: 'postgres_user_pass', usernameVariable: 'db_username', passwordVariable: 'db_password'), string(credentialsId: 'email_password', variable: 'email_password')]) {
+                     sh """
+                     aws ec2 describe-addresses --query Addresses[0].PublicIp > publicip1.txt; \
+                     aws ec2 describe-addresses --query Addresses[1].PublicIp > publicip2.txt; \
+                     aws rds describe-db-instances --query DBInstances[0].Endpoint.Address > output.txt; \
+                     export PUBLIC_IP1=\$(cut -d '"' -f 2 publicip1.txt); \
+                     export PUBLIC_IP2=\$(cut -d '"' -f 2 publicip2.txt); \
+                     export DB_URL=\$(cut -d '"' -f 2 output.txt); \
+                     sed -i 's/postusername/\${db_username}/g' /var/jenkins_home/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i 's/postpassword/\${db_password}/g' /var/jenkins_home/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i 's/localhost:5432/\${DB_URL}:5432/g' /var/jenkins_home/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i 's/passwordemail/\${email_password}/g' /var/jenkins_home/workspace/Geocit/src/main/resources/application.properties; \
+                     sed -i 's/server1/\${PUBLIC_IP1}/g' /var/jenkins_home/workspace/Geocit/ansible/hosts.txt; \
+                     sed -i 's/server2/\${PUBLIC_IP2}/g' /var/jenkins_home/workspace/Geocit/ansible/hosts.txt; \
+                     cat /var/jenkins_home/workspace/Geocit/ansible/hosts.txt;
+                     """
+                    }
+                }
+            }
+        }
+    }
+}

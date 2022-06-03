@@ -117,7 +117,7 @@ resource "aws_launch_configuration" "web" {
   //  name            = "WebServer-Highly-Available-LC"
   name_prefix     = "WebServer-Highly-Available-LC-"
   image_id        = data.aws_ami.latest_amazon_linux.id
-  key_name = "linux_stockholm"
+  key_name = "vm"
   instance_type   = "t3.micro"
   security_groups = [aws_security_group.web.id]
   depends_on      = [aws_db_instance.default]

@@ -169,7 +169,7 @@ resource "aws_elb" "web" {
     unhealthy_threshold = 2
     timeout             = 3
     target              = "HTTP:8080/"
-    interval            = 120
+    interval            = 300
   }
   tags = {
     Name = "WebServer-Highly-Available-ELB"

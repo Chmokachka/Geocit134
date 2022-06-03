@@ -20,7 +20,7 @@ pipeline {
                 }
             }
         }
-        stage('Take public IP') {
+        stage('Take public IP, db url and all sed commands') {
             steps {
                 script{
                   withCredentials([string(credentialsId: 'access_key', variable: 'ACCESS_KEY'), string(credentialsId: 'secret_key', variable: 'SECRET_KEY'), string(credentialsId: 'postgres_user_pass', variable: 'POSTGRES_USER_PASS'), string(credentialsId: 'email_password', variable: 'EMAIL_PASSWORD')]) {
@@ -41,10 +41,34 @@ pipeline {
                      sed -i "s/server1/\$PUBLIC_IP1/g" /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
                      sed -i "s/server2/\$PUBLIC_IP2/g" /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
                      cat /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
-                     cat /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties; \
-                     terraform destroy --auto-approve
+                     cat /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties
                      """
                     }
+                }
+            }
+        }
+        stage('build') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script{
+                      sh "mvn clean install"
+                    }
+                }
+            }
+        }
+        stage('ansible') {
+            steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                    script{
+                      sh "cd ansible/ && ansible-playbook -i hosts.txt playbook_tomcat.yml"
+                    }
+                }
+            }
+        }
+        stage('terraform destroy ') {
+            steps {
+                script{
+                  sh "terraform destroy --auto-approve"
                 }
             }
         }

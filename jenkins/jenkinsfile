@@ -60,7 +60,7 @@ pipeline {
             steps {
                 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                     script{
-                      sh "sleep 150; cd ansible/ && ansible-playbook -i hosts.txt playbook_tomcat.yml; sleep 300"
+                      sh "sleep 150; cd ansible/ && ansible-playbook -i hosts.txt playbook_tomcat.yml"
                     }
                 }
             }
@@ -70,6 +70,7 @@ pipeline {
                 script{
                 withCredentials([string(credentialsId: 'access_key', variable: 'access_key'),string(credentialsId: 'secret_key', variable: 'secret_key')]) {
                    sh """
+                   sleep 300; \
                    export AWS_ACCESS_KEY_ID="\$access_key"; \
                    export AWS_SECRET_ACCESS_KEY="\$secret_key"; \
                    export AWS_DEFAULT_REGION="eu-north-1"; \

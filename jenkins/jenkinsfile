@@ -22,6 +22,7 @@ pipeline {
         stage('Take public IP, db url and all sed commands') {
             steps {
                 script{
+                  withCredentials([string(credentialsId: 'postgres_user_pass', variable: 'POSTGRES_USER_PASS'), string(credentialsId: 'email_password', variable: 'EMAIL_PASSWORD')]) {
                       sh """
                      aws ec2 describe-instances --filters Name=instance-state-name,Values=running --query Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].Association.PublicIp > publicip1.txt; \
                      aws ec2 describe-instances --filters Name=instance-state-name,Values=running --query Reservations[1].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].Association.PublicIp > publicip2.txt; \
@@ -38,6 +39,7 @@ pipeline {
                      cat /var/lib/jenkins/workspace/Geocit/ansible/hosts.txt; \
                      cat /var/lib/jenkins/workspace/Geocit/src/main/resources/application.properties
                      """
+                      }
                 }
             }
         }

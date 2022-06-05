@@ -23,8 +23,8 @@ pipeline {
             steps {
                 script{
                       sh """
-                     aws ec2 describe-addresses --query Addresses[0].PublicIp > publicip1.txt; \
-                     aws ec2 describe-addresses --query Addresses[1].PublicIp > publicip2.txt; \
+                     aws ec2 describe-instances --filters Name=instance-state-name,Values=running --query Reservations[0].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].Association.PublicIp > publicip1.txt; \
+                     aws ec2 describe-instances --filters Name=instance-state-name,Values=running --query Reservations[1].Instances[0].NetworkInterfaces[0].PrivateIpAddresses[0].Association.PublicIp > publicip2.txt; \
                      aws rds describe-db-instances --query DBInstances[0].Endpoint.Address > output.txt; \
                      export PUBLIC_IP1=\$(cut -d '"' -f 2 publicip1.txt); \
                      export PUBLIC_IP2=\$(cut -d '"' -f 2 publicip2.txt); \

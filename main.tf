@@ -100,6 +100,7 @@ resource "aws_launch_configuration" "web" {
   image_id        = data.aws_ami.latest_amazon_linux.id
   key_name = "linux_stockholm"
   instance_type   = "t3.micro"
+  associate_public_ip_address = true
   security_groups = [aws_security_group.web.id]
   depends_on      = [aws_db_instance.default]
 }
@@ -113,7 +114,6 @@ resource "aws_autoscaling_group" "web" {
   max_size             = 2
   desired_capacity     = 2
   health_check_type    = "ELB"
-  associate_public_ip_address = true
   vpc_zone_identifier  = [aws_subnet.pub_a.id, aws_subnet.pub_b.id]
   load_balancers       = [aws_elb.web.name]
   depends_on           = [aws_db_instance.default]

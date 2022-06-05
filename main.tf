@@ -77,25 +77,6 @@ resource "aws_security_group" "web" {
   }
 }
 
-/*
-resource "aws_security_group" "db" {
-  name = "db_security_group"
-  vpc_id="${aws_vpc.main.id}"
-  depends_on  = [aws_vpc.main]
-  ingress {
-    from_port = 3306
-    to_port = 3306
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-}
-*/
 
 resource "aws_security_group" "db" {
   name   = "db_security_group"
@@ -312,23 +293,6 @@ resource "aws_route_table" "public" {
 
 #------------------
 
-#resource "aws_route" "public_internet_gateway" {
-#  route_table_id         = "${aws_route_table.public.id}"
-#  destination_cidr_block = "0.0.0.0/0"
-#  gateway_id             = "${aws_internet_gateway.gw.id}"
-#}
-#resource "aws_route" "private_nat_gateway_a" {
-#  route_table_id         = "${aws_route_table.private_a.id}"
-#  destination_cidr_block = "0.0.0.0/0"
-#  nat_gateway_id         = "${aws_nat_gateway.nat_a.id}"
-#}
-#resource "aws_route" "private_nat_gateway_b" {
-#  route_table_id         = "${aws_route_table.private.id}"
-#  destination_cidr_block = "0.0.0.0/0"
-#  nat_gateway_id         = "${aws_nat_gateway.nat_b.id}"
-#}
-
-#---------------
 
 /* Route table associations */
 resource "aws_route_table_association" "public_a" {

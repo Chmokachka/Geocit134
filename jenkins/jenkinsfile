@@ -59,7 +59,7 @@ pipeline {
                 }
             }
         }
-        stage('terraform destroy ') {
+        /*stage('terraform destroy ') {
             steps {
                 script{
                    sh """
@@ -69,6 +69,6 @@ pipeline {
                    """
                 }
             }
-        }
+        }*/
     }
 }

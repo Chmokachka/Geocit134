@@ -110,9 +110,10 @@ resource "aws_autoscaling_group" "web" {
   name                 = "ASG-${aws_launch_configuration.web.name}"
   launch_configuration = aws_launch_configuration.web.name
   min_size             = 1
-  max_size             = 4
+  max_size             = 2
   desired_capacity     = 2
   health_check_type    = "ELB"
+  associate_public_ip_address = true
   vpc_zone_identifier  = [aws_subnet.pub_a.id, aws_subnet.pub_b.id]
   load_balancers       = [aws_elb.web.name]
   depends_on           = [aws_db_instance.default]
@@ -175,6 +176,8 @@ resource "aws_db_instance" "default" {
 
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
   tags = {
     Name = "My VPC"
   }

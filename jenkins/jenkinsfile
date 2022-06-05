@@ -13,9 +13,6 @@ pipeline {
                 script{
                      sh """
                      pwd; \
-                     export AWS_ACCESS_KEY_ID="\$access_key"; \
-                     export AWS_SECRET_ACCESS_KEY="\$secret_key"; \
-                     export AWS_DEFAULT_REGION="eu-north-1"; \
                      terraform init; \
                      terraform apply --auto-approve
                      """
@@ -26,9 +23,6 @@ pipeline {
             steps {
                 script{
                       sh """
-                     export AWS_ACCESS_KEY_ID="\$ACCESS_KEY"; \
-                     export AWS_SECRET_ACCESS_KEY="\$SECRET_KEY"; \
-                     export AWS_DEFAULT_REGION="eu-north-1"; \
                      aws ec2 describe-addresses --query Addresses[0].PublicIp > publicip1.txt; \
                      aws ec2 describe-addresses --query Addresses[1].PublicIp > publicip2.txt; \
                      aws rds describe-db-instances --query DBInstances[0].Endpoint.Address > output.txt; \
@@ -70,9 +64,6 @@ pipeline {
                 script{
                    sh """
                    sleep 300; \
-                   export AWS_ACCESS_KEY_ID="\$access_key"; \
-                   export AWS_SECRET_ACCESS_KEY="\$secret_key"; \
-                   export AWS_DEFAULT_REGION="eu-north-1"; \
                    terraform init; \
                    terraform destroy --auto-approve
                    """

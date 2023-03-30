@@ -23,7 +23,7 @@
     "node-waves": "^0.7.5",
     "sass-loader": "^6.0.6",
     "stompjs": "^2.3.3",
-    "style-loader": "^0.20.1",
+    "style-loader": "^0.23.1",
     "v-tooltip": "^2.0.0-rc.25",
     "vue": "^2.5.2",
     "vue-axios": "^2.0.2",

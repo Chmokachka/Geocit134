@@ -30,9 +30,9 @@
 	    <java.version>8</java.version>
 	    <springframework.version>4.3.13.RELEASE</springframework.version>
 	    <springframework.data-jpa.version>1.11.9.RELEASE</springframework.data-jpa.version>
-	    <springframework.security.version>4.2.3.RELEASE</springframework.security.version>
+	    <springframework.security.version>5.4.11</springframework.security.version>
         <springframework.security.jwt.version>1.0.8.RELEASE</springframework.security.jwt.version>
-        <springframework.security.oauth2.version>2.2.1.RELEASE</springframework.security.oauth2.version>
+        <springframework.security.oauth2.version>2.5.2.RELEASE</springframework.security.oauth2.version>
 	    <springframework.social.version>1.1.4.RELEASE</springframework.social.version>
 	    <springframework.social.facebook.version>3.0.0.M3</springframework.social.facebook.version>
 	    <springframework.social.google.version>1.0.0.RELEASE</springframework.social.google.version>
@@ -44,7 +44,7 @@
         <jackson.version>2.9.3</jackson.version>
         <slf4j.version>1.7.25</slf4j.version>
         <logback.version>1.2.3</logback.version>
-        <liquibase.version>3.5.3</liquibase.version>
+        <liquibase.version>3.8.1</liquibase.version>
 	    <mapstruct.version>1.2.0.Final</mapstruct.version>
 	    <javax.validation.version>2.0.1.Final</javax.validation.version>
 	    <guava.version>23.6-jre</guava.version>

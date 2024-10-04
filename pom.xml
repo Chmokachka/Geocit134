@@ -60,7 +60,7 @@
 	    <javax.mail.version>1.6.0</javax.mail.version>
 	    <apache.commons.lang>3.7</apache.commons.lang>
 	    <apache.commons.collections>4.1</apache.commons.collections>
-        <apache.commons.io>2.6</apache.commons.io>
+        <apache.commons.io>2.14.0</apache.commons.io>
         <swagger.version>2.7.0</swagger.version>
     </properties>
 

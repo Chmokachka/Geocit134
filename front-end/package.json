@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@stomp/stompjs": "^4.0.0",
-    "axios": "^0.17.1",
+    "axios": "^1.7.8",
     "bootstrap-social": "^5.1.1",
     "debounce": "^1.1.0",
     "node-sass": "^4.7.2",

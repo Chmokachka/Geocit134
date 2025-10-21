@@ -403,7 +403,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-websocket</artifactId>
-            <version>4.3.13.RELEASE</version>
+            <version>6.2.12</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-messaging -->
         <dependency>
